@@ -1,0 +1,52 @@
+/* ===== Tableta ===== */
+@media (max-width: 1100px) {
+  .fn-form { grid-template-columns: minmax(0, 1fr) 90px; }
+  .fn-form .field--grow { grid-column: 1 / -1; }
+  .fn-form__submit { grid-column: 1 / -1; margin-top: 0; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* El menú lateral pasa a ser una barra horizontal */
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: sticky; top: 8px; z-index: 20; padding: 8px; }
+  .stepper { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .stepper__item { flex-direction: column; gap: 4px; padding: 8px 4px; text-align: center; }
+  .stepper__item:hover { transform: none; }
+  .stepper__text { width: 100%; }
+  .stepper__text strong { font-size: .72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stepper__text small { display: none; }
+  .summary { display: none; }
+  .gsc-grid, .params-form { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ===== Móvil ===== */
+@media (max-width: 600px) {
+  body { font-size: 14px; }
+  .topbar { flex-wrap: wrap; }
+  .topbar__actions { width: 100%; }
+  .topbar__actions .btn { flex: 1; }
+  .panel { padding: 18px; border-radius: var(--radius); }
+  .panel__head h2 { font-size: 1.15rem; }
+  .stepper__dot { width: 28px; height: 28px; }
+
+  .fn-form { grid-template-columns: minmax(0, 1fr); }
+  .assistant__body { grid-template-columns: minmax(0, 1fr); }
+  .pill-stats { width: 100%; }
+  .pill-stats > span { flex: 1; text-align: center; }
+  .indicators { grid-template-columns: minmax(0, 1fr); }
+  .kpi__value { font-size: 1.15rem; }
+  .kpi--highlight { grid-column: 1 / -1; }
+  .panel__nav .btn { flex: 1; }
+
+  /* Tabla de funcionalidades como tarjetas */
+  .table--stack thead { display: none; }
+  .table--stack tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding: 10px 4px; border-bottom: 1px solid var(--line); }
+  .table--stack td { border: 0; padding: 3px 8px; }
+  .table--stack td:first-child { grid-column: 1; font-weight: 700; }
+  .table--stack td[data-label]:not(:first-child)::before { content: attr(data-label) ': '; color: var(--text-muted); }
+  .table--stack td.num { text-align: left; }
+  .table--stack .actions { grid-row: 1; grid-column: 2; }
+
+  .toasts { left: 16px; right: 16px; width: auto; }
+}

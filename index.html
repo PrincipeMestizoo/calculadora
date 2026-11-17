@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Costos de Software</title>
+  <meta name="description" content="Estima el esfuerzo, el tiempo y el precio de un proyecto de software en pesos colombianos.">
+  <meta name="theme-color" content="#f4f6fb">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/animations.css">
+  <link rel="stylesheet" href="styles/responsive.css">
+  <link rel="stylesheet" href="styles/print.css" media="print">
+  <script type="module" src="scripts/main.js"></script>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <span class="blob blob--1"></span>
+    <span class="blob blob--2"></span>
+    <span class="blob blob--3"></span>
+  </div>
+
+  <header class="topbar glass">
+    <div class="brand">
+      <div class="brand__logo" aria-hidden="true">$</div>
+      <div>
+        <h1 class="brand__title">Costos de Software</h1>
+        <p class="brand__subtitle">Estima esfuerzo, tiempo y precio de tu proyecto</p>
+      </div>
+    </div>
+    <div class="topbar__actions">
+      <button class="btn btn--ghost" id="btn-sample" type="button">Ver ejemplo</button>
+      <button class="btn btn--ghost" id="btn-reset" type="button">Nuevo</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <!-- Menú de pasos + resumen en vivo -->
+    <aside class="sidebar glass">
+      <nav aria-label="Pasos">
+        <ol class="stepper" id="stepper">
+          <li><button class="stepper__item" type="button" data-step="1">
+            <span class="stepper__dot">1</span>
+            <span class="stepper__text"><strong>Funcionalidades</strong><small><span id="fn-count">0</span> registradas</small></span>
+          </button></li>
+          <li><button class="stepper__item" type="button" data-step="2">
+            <span class="stepper__dot">2</span>
+            <span class="stepper__text"><strong>Características</strong><small>Ajuste ×<span id="gsc-factor-mini">0,65</span></small></span>
+          </button></li>
+          <li><button class="stepper__item" type="button" data-step="3">
+            <span class="stepper__dot">3</span>
+            <span class="stepper__text"><strong>Costos</strong><small>Salarios, márgenes e IVA</small></span>
+          </button></li>
+          <li><button class="stepper__item" type="button" data-step="4">
+            <span class="stepper__dot">4</span>
+            <span class="stepper__text"><strong>Resultados</strong><small>Presupuesto final</small></span>
+          </button></li>
+        </ol>
+      </nav>
+      <div class="summary" id="summary" aria-live="polite"></div>
+    </aside>
+
+    <main class="panels">
+      <p id="fatal" class="fatal" role="alert" hidden></p>
+
+      <!-- Paso 1 -->
+      <section class="panel glass" id="paso-1" data-panel="1" aria-labelledby="t-1">
+        <header class="panel__head">
+          <h2 id="t-1" tabindex="-1">¿Qué hace el sistema?</h2>
+          <p>Agrega cada función que el usuario necesita.</p>
+        </header>
+
+        <form id="fn-form" class="fn-form" novalidate>
+          <div class="field field--grow">
+            <label for="fn-name">Funcionalidad</label>
+            <input id="fn-name" name="name" type="text" maxlength="80" placeholder="Ej.: Registrar clientes" autocomplete="off" required>
+            <small class="field__hint suggestion" id="fn-suggestion" aria-live="polite"></small>
+            <small class="field__error" data-error-for="name"></small>
+          </div>
+          <div class="field field--qty">
+            <label for="fn-qty">Cantidad</label>
+            <input id="fn-qty" name="quantity" type="number" min="1" max="999" step="1" value="1" inputmode="numeric" required>
+            <small class="field__error" data-error-for="quantity"></small>
+          </div>
+          <div class="field">
+            <label for="fn-type">Tipo</label>
+            <select id="fn-type" name="type"></select>
+            <small class="field__error" data-error-for="type"></small>
+          </div>
+          <div class="field">
+            <label for="fn-complexity">Complejidad</label>
+            <select id="fn-complexity" name="complexity"></select>
+            <small class="field__error" data-error-for="complexity"></small>
+          </div>
+          <button class="btn btn--primary fn-form__submit" type="submit">+ Agregar</button>
+        </form>
+
+        <details class="assistant" id="assistant">
+          <summary>Calcular la complejidad</summary>
+          <div class="assistant__body">
+            <p class="assistant__hint" id="assist-hint"></p>
+            <div class="field">
+              <label for="assist-det">DET · campos de datos</label>
+              <input id="assist-det" name="det" type="number" min="1" step="1" inputmode="numeric" placeholder="Ej.: 8">
+              <small class="field__error" data-error-for="det"></small>
+            </div>
+            <div class="field">
+              <label for="assist-ref" id="assist-ref-label">FTR</label>
+              <input id="assist-ref" name="ref" type="number" min="0" step="1" inputmode="numeric" placeholder="Ej.: 2">
+              <small class="field__error" data-error-for="ref"></small>
+            </div>
+            <button class="btn btn--secondary" type="button" data-action="assist">Aplicar</button>
+            <p class="assistant__result" id="assist-result" aria-live="polite"></p>
+          </div>
+        </details>
+
+        <div class="table-wrap">
+          <table class="table table--stack" id="fn-table">
+            <thead>
+              <tr>
+                <th scope="col">Funcionalidad</th>
+                <th scope="col" class="num">Cant.</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Complejidad</th>
+                <th scope="col" class="num">PF</th>
+                <th scope="col"><span class="sr-only">Acciones</span></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p class="empty" id="fn-empty">Aún no hay funcionalidades.</p>
+        </div>
+
+        <footer class="panel__nav">
+          <span></span>
+          <button class="btn btn--primary" type="button" data-nav="next">Siguiente →</button>
+        </footer>
+      </section>
+
+      <!-- Paso 2 -->
+      <section class="panel glass" id="paso-2" data-panel="2" aria-labelledby="t-2" hidden>
+        <header class="panel__head panel__head--split">
+          <div>
+            <h2 id="t-2" tabindex="-1">¿Cómo es el sistema?</h2>
+            <p>Califica cada característica de 0 (nada) a 5 (mucho).</p>
+          </div>
+          <div class="pill-stats" aria-live="polite">
+            <span>Total <strong id="gsc-total">0</strong>/70</span>
+            <span>Ajuste <strong>×<span id="gsc-factor">0,65</span></strong></span>
+          </div>
+        </header>
+        <div class="gsc-grid" id="gsc-grid"></div>
+        <footer class="panel__nav">
+          <button class="btn btn--ghost" type="button" data-nav="prev">← Anterior</button>
+          <button class="btn btn--primary" type="button" data-nav="next">Siguiente →</button>
+        </footer>
+      </section>
+
+      <!-- Paso 3 -->
+      <section class="panel glass" id="paso-3" data-panel="3" aria-labelledby="t-3" hidden>
+        <header class="panel__head">
+          <h2 id="t-3" tabindex="-1">Costos del equipo</h2>
+          <p>Ajusta los valores a tu empresa o usa los sugeridos.</p>
+        </header>
+        <form id="params-form" class="params-form" novalidate></form>
+        <footer class="panel__nav">
+          <button class="btn btn--ghost" type="button" data-nav="prev">← Anterior</button>
+          <button class="btn btn--primary" id="btn-calculate" type="button">Calcular presupuesto</button>
+        </footer>
+      </section>
+
+      <!-- Paso 4 -->
+      <section class="panel glass" id="paso-4" data-panel="4" aria-labelledby="t-4" hidden>
+        <header class="panel__head">
+          <h2 id="t-4" tabindex="-1">Presupuesto</h2>
+          <p>Valores en pesos colombianos.</p>
+        </header>
+        <div id="results" aria-live="polite"></div>
+        <footer class="panel__nav">
+          <button class="btn btn--ghost" type="button" data-nav="prev">← Anterior</button>
+          <button class="btn btn--secondary" id="btn-print" type="button">Imprimir / PDF</button>
+        </footer>
+      </section>
+    </main>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+</body>
+</html>

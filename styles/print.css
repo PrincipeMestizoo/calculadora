@@ -1,0 +1,13 @@
+/* Impresión: solo el presupuesto, sin efectos ni controles. */
+body { background: #fff !important; font-size: 12px; }
+.backdrop, .sidebar, .topbar__actions, .toasts, .panel__nav, .panel:not([data-panel="4"]) { display: none !important; }
+.panel[data-panel="4"] { display: block !important; }
+.shell { display: block; width: 100%; margin: 0; }
+.topbar { width: 100%; margin: 0 0 12px; }
+.glass, .panel, .kpi, .formula, .indicator, .details-block {
+  background: none !important; box-shadow: none !important; backdrop-filter: none !important;
+  border: 1px solid #ccc !important; animation: none !important;
+}
+.kpi--highlight, .table--cost .row--grand th, .table--cost .row--grand td { background: #eee !important; color: #111 !important; }
+.kpi--highlight .kpi__label { color: #444 !important; }
+.brand__logo { background: #333 !important; box-shadow: none !important; }
